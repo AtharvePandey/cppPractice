@@ -2,6 +2,13 @@
 
 #include "../include/fileIO.h"
 
+fileIO::fileIO() {
+    // Constructor implementation
+}
+
+fileIO::~fileIO() {
+    // Destructor implementation
+}
 
 fileIO& fileIO::getObj(){
     static fileIO instance;
@@ -25,7 +32,7 @@ int fileIO::writeToFile(const std::string& message, const int& fileID){
     }else{
         std::ofstream file(path, std::ios::app);
         if(!file.is_open()){
-            std::cout << "error can't open the file on path: " << path << std :: endl;
+            std::cout << "error can't open the file on path: " << path << std::endl;
         }
         file << message;
         file.close();
@@ -36,11 +43,18 @@ int fileIO::writeToFile(const std::string& message, const int& fileID){
 void fileIO::readFile(int& fileID){
     const std::string path = this->getFilePath(fileID);
     if(path == ""){
-        std :: cout << "error, can't find file with associated id: " << fileID << std ::endl;
+        std::cout << "error, can't find file with associated id: " << fileID << std::endl;
     }else{
-        std::ofstream file(path);
-        file.flush();
-        file.close();
+        std::ifstream file(path);
+        if(!file.is_open()){
+            std::cout << "error can't open the file on path: " << path << std::endl;
+        } else {
+            std::string line;
+            while(std::getline(file, line)){
+                std::cout << line << std::endl;
+            }
+            file.close();
+        }
     }
 }
 
